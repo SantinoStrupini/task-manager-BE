@@ -17,5 +17,8 @@
    Para iniciar el servidor en modo desarrollo, utiliza el siguiente comando:
    npm run start
    ```
+   **Link al despliegue de la API:**
+   https://task-manager-be-amy0.onrender.com/api/getAll
+   
 
  
