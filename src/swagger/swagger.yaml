@@ -1,0 +1,153 @@
+openapi: 3.0.0
+info:
+  title: Task Manager API
+  version: 1.0.0
+  description: API para la gestión de tareas
+  contact:
+    name: Santino Strupini
+servers:
+  - url: http://localhost:3000
+    description: Local server
+
+components:
+  schemas:
+    Task:
+      type: object
+      required:
+        - title
+        - description
+        - state
+      properties:
+        id:
+          type: string
+          description: ID autogenerado de la tarea (en formato ObjectId de MongoDB)
+        title:
+          type: string
+          description: Título de la tarea
+        description:
+          type: string
+          description: Descripción de la tarea
+        state:
+          type: boolean
+          description: Estado de la tarea (true para completada, false para incompleta)
+        createdDate:
+          type: string
+          format: date-time
+          description: Fecha de creación de la tarea
+      example:
+        id: 64f8c0a2c4dbe12f34567abc
+        title: "Aprender Swagger"
+        description: "Documentar rutas API usando Swagger"
+        state: false
+        createdDate: "2024-12-29T12:00:00Z"
+
+tags:
+  - name: Tasks
+    description: API para gestión de tareas
+
+paths:
+  /api/getAll:
+    get:
+      summary: Obtiene todas las tareas
+      tags:
+        - Tasks
+      responses:
+        200:
+          description: Lista de tareas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+
+  /api/getById/{id}:
+    get:
+      summary: Obtiene una tarea por ID
+      tags:
+        - Tasks
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID de la tarea
+      responses:
+        200:
+          description: Tarea obtenida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        404:
+          description: Tarea no encontrada
+
+  /api/create:
+    post:
+      summary: Crea una nueva tarea
+      tags:
+        - Tasks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        201:
+          description: Tarea creada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        400:
+          description: Error de validación
+
+  /api/edit/{id}:
+    put:
+      summary: Edita una tarea existente
+      tags:
+        - Tasks
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID de la tarea
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        200:
+          description: Tarea editada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        400:
+          description: Error de validación
+        404:
+          description: Tarea no encontrada
+
+  /api/delete/{id}:
+    delete:
+      summary: Elimina una tarea por ID
+      tags:
+        - Tasks
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID de la tarea
+      responses:
+        200:
+          description: Tarea eliminada exitosamente
+        404:
+          description: Tarea no encontrada
