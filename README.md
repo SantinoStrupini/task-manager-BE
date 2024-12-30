@@ -15,7 +15,7 @@
 
 3. **Ejecutar el proyecto:**
    Para iniciar el servidor en modo desarrollo, utiliza el siguiente comando:
-   npm run dev
+   npm run start
    ```
 
-
+ 
