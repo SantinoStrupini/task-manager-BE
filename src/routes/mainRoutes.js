@@ -7,7 +7,7 @@ const { editTaskValidations } = require('../middlewares/editTaskValidations');
 const { addTaskValidations } = require('../middlewares/addTaskValidations');
 
 
-
+router.use(auth);
 router.get('/getAll', mainController.getAll)
 router.get('/getById/:id', mainController.getById)
 router.post('/create', addTaskValidations, mainController.create)

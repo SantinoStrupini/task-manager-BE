@@ -1,37 +1,33 @@
 const bcrypt = require('bcryptjs');
-const jwt = require('../helpers/jwt'); 
+const jwt = require('../helpers/jwt');
 const User = require('../models/User');
 
 const userController = {
   register: async (req, res) => {
     const { userName, email, password } = req.body;
-  
+
     try {
       const userExists = await User.findOne({ email });
       if (userExists) {
         return res.status(400).json({ message: 'The user already exists' });
       }
-  
+
       const hashPassword = await bcrypt.hash(password, 10);
-  
+
       const newUser = new User({
         userName,
         email,
-        password: hashPassword,
-        tasks: [], 
+        password: hashPassword
       });
-  
+
       await newUser.save();
-  
+
       return res.status(201).json({ message: 'User created successfully', user: newUser });
     } catch (error) {
       console.error(error);
       return res.status(500).json({ message: 'Error creating user', error });
     }
   },
-  
-
-
 
   login: async (req, res) => {
     const { email, password } = req.body;
@@ -83,7 +79,7 @@ const userController = {
       console.error(error);
       return res.status(500).json({ message: 'Error retrieving user', error });
     }
-  },
+  }
 };
 
 module.exports = userController;
