@@ -5,7 +5,7 @@ const router = express.Router();
 const mainController = require('../controllers/mainController');
 const { editTaskValidations } = require('../middlewares/editTaskValidations');
 const { addTaskValidations } = require('../middlewares/addTaskValidations');
-
+const auth = require('../middlewares/authMiddleware');
 
 router.use(auth);
 router.get('/getAll', mainController.getAll)
